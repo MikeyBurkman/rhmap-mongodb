@@ -14,8 +14,3 @@ mongo.collection('MY_COLLECTION')
         return collection.insert(myData);
     });
 ```
-
-### TODO
-1. Currently, if the database is down on startup, then all calls to mongo will reject.
-(This is very rarely an issue -- if mongodb is down on the platform, chances are that 
-you're already in bad shape. Restart the app once mongodb is up and you should be fine.)
