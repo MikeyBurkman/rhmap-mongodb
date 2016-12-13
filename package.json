@@ -1,0 +1,31 @@
+{
+  "name": "rhmap-mongodb",
+  "version": "1.0.0",
+  "description": "Mongodb Promise wrapper for RHMAP",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MikeyBurkman/rhmap-mongodb.git"
+  },
+  "keywords": [
+    "rhmap",
+    "mongodb"
+  ],
+  "author": "MikeyBurkman",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/MikeyBurkman/rhmap-mongodb/issues"
+  },
+  "homepage": "https://github.com/MikeyBurkman/rhmap-mongodb#readme",
+  "dependencies": {
+    "bluebird": "~3.4.6",
+    "env-var": "~2.2.0",
+    "mongodb": "~2.1.21"
+  },
+  "devDependencies": {
+    "eslint": "^3.12.1"
+  }
+}
