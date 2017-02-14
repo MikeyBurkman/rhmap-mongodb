@@ -8,6 +8,8 @@ except wrapped in [Bluebird](https://www.npmjs.com/package/bluebird) promise for
 - Also exposes the raw connected MongoClient, if necessary.
 
 ## Usage
+First of all, you need to make sure your database on RHMAP has been "upgrades". Go to the databrowser, and click "Update Database". This will restart your application, and allow your application to connect directly to the database instead of through `$fh.db`.
+
 ```js
 var mongo = require('rhmap-mongodb');
 
@@ -34,6 +36,12 @@ mongo.collection('FOO')
 `db()` - Returns a **promise** that resolves to the connected Mongodb driver. 
 This returns the equivalent of calling `MongoClient.connect(url)`.
 
+## Configuration
+Configuration is done via environment variables:
+
+`FH_MONGODB_CONN_URL` - This is the URL for connecting to Mongo. This is set automatically by the RHMAP platform. Defaults to `mongodb://localhost:27017/FH_LOCAL`
+
+`RHMAP_MONGO_CONNECT_RETRY_INTERVAL` - This is the number of milliseconds between retries if the Mongo database is not immediately available. Defaults to `10000` (10 seconds)
 
 ## Contributing
 
