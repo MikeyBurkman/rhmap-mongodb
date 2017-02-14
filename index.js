@@ -8,6 +8,8 @@ var Collection = require('mongodb').Collection;
 var mongoUrl = env('FH_MONGODB_CONN_URL', 'mongodb://localhost:27017/FH_LOCAL').asString();
 var retryInterval = env('RHMAP_MONGO_CONNECT_RETRY_INTERVAL', 10000).asPositiveInt();
 
+var collectionFns = Object.keys(Collection.prototype);
+
 exports.db = new Promise(function(resolve) {
     attemptConnection(resolve);
 });
@@ -20,7 +22,7 @@ exports.collection = function(collectionName) {
     var collPromise = exports.db.call('collection', collectionName);
 
     var res = {};
-    Object.keys(Collection.prototype).forEach(function(fnName) {
+    collectionFns.forEach(function(fnName) {
         res[fnName] = function() {
             var args = arguments;
             return collPromise.then(function(collection) {
