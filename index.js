@@ -3,6 +3,7 @@
 var Promise = require('bluebird');
 var env = require('env-var');
 var MongoClient = require('mongodb').MongoClient;
+var Collection = require('mongodb').Collection;
 
 var mongoUrl = env('FH_MONGODB_CONN_URL', 'mongodb://localhost:27017/FH_LOCAL').asString();
 var retryInterval = env('RHMAP_MONGO_CONNECT_RETRY_INTERVAL', 10000).asPositiveInt();
@@ -11,11 +12,24 @@ exports.db = new Promise(function(resolve) {
     attemptConnection(resolve);
 });
 
-// Returns a BLUEBIRD promise for the collection.
-// Note that by starting any chain with this promise, that will assure that
-//  all other promises in the chain will also be BLUEBIRD promises
+// Returns an object that can be used just like a Mongo Collection object.
+// The results of each collection function will be a BLUEBIRD promise.
+// IE: require('rhmap-mongodb').collection('FOO_COLLECTION').find({...}).map(...);
 exports.collection = function(collectionName) {
-    return exports.db.call('collection', collectionName);
+
+    var collPromise = exports.db.call('collection', collectionName);
+
+    var res = {};
+    Object.keys(Collection.prototype).forEach(function(fnName) {
+        res[fnName] = function() {
+            var args = arguments;
+            return collPromise.then(function(collection) {
+                return collection[fnName].apply(collection, args);
+            });
+        };
+    });
+
+    return res;
 };
 
 
