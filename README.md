@@ -9,7 +9,7 @@ except wrapped in [Bluebird](https://www.npmjs.com/package/bluebird) promise for
 - Node 0.10 compliant (for now)
 
 ## Usage
-First of all, you need to make sure your database on RHMAP has been "upgrades". Go to the databrowser, and click "Update Database". This will restart your application, and allow your application to connect directly to the database instead of through `$fh.db`.
+First of all, you need to make sure your database on RHMAP has been "upgraded". Go to the Data Browser, and click "Upgrade Database". This will restart your application, and allow your application to connect directly to the database instead of through `$fh.db`.
 
 ```js
 var mongo = require('rhmap-mongodb');
@@ -23,7 +23,7 @@ exports.createRecord = function createRecord(record) {
 
 ## API
 `collection(collectionName)` - Returns an object containing all collection functions that
-the mongodb module provides. IE: `find()`, `insert()`, `remove()`, etc. 
+the mongodb module provides. IE: `find()`, `insert()`, `remove()`, etc.
 **These functions all return strict Bluebird promises**, even if the original mongodb functions did not. (See below caveats for more details.)
 ```js
 mongo.collection('FOO')
@@ -32,7 +32,7 @@ mongo.collection('FOO')
     .map((failedRecord) => sendEmailNotification(failedRecord)); // Returns a bluebird promise, so we can use its utility functions.
 ```
 
-`db()` - Returns a **promise** that resolves to the connected Mongodb driver. 
+`db()` - Returns a **promise** that resolves to the connected Mongodb driver.
 This returns the equivalent of calling `MongoClient.connect(url)`.
 
 ## Configuration
@@ -62,5 +62,5 @@ rhampmongo.collection('foo')
 ## Contributing
 
 ### Testing
-Just run `npm test`. You must have a version of Mongodb running locally. 
+Just run `npm test`. You must have a version of Mongodb running locally.
 The preferred version is 2.4.6, as that is what RHMAP currently runs.
