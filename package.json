@@ -15,6 +15,11 @@
     "mongodb"
   ],
   "author": "MikeyBurkman",
+  "contributors": [
+    {
+      "name": "jimdillon"
+    }
+  ],
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/MikeyBurkman/rhmap-mongodb/issues"
