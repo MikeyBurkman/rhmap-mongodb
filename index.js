@@ -2,10 +2,10 @@
 
 var Promise = require('bluebird');
 var env = require('env-var');
-var fhapi = require('fh-mbaas-api');
 var MongoClient = require('mongodb').MongoClient;
 var Collection = require('mongodb').Collection;
 
+var mongoUrl = env('FH_MONGODB_CONN_URL', 'mongodb://localhost:27017/FH_LOCAL').asString();
 var retryInterval = env('RHMAP_MONGO_CONNECT_RETRY_INTERVAL', 10000).asPositiveInt();
 
 var collectionFns = Object.keys(Collection.prototype);
@@ -37,10 +37,7 @@ exports.collection = function(collectionName) {
 
 // Will call onConnect(database) only after successfully connecting to the database
 function attemptConnection(onConnect) {
-    getConnectionString()
-        .then(function(mongoUrl) {
-            return MongoClient.connect(mongoUrl);
-        })
+    Promise.resolve(MongoClient.connect(mongoUrl))
         .then(onConnect)
         .catch(function(err) {
             console.log('Error connecting to mongo, trying again later', err.stack || err);
@@ -48,15 +45,4 @@ function attemptConnection(onConnect) {
                 attemptConnection(onConnect);   
             });
         });
-}
-
-function getConnectionString() {
-    return Promise.fromCallback(function(cb) {
-        return fhapi.db({
-            act: 'connectionString'
-        }, cb);
-    })
-    .then(function(str) {
-        return str || 'mongodb://localhost:27017/FH_LOCAL';
-    });
 }

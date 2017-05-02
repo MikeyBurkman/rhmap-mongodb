@@ -11,12 +11,10 @@ describe(__filename, function() {
     describe('#Connecting', function() {
 
         var connectStub;
-        var dbStub;
         var mockEnv;
 
         beforeEach(function() {
             connectStub = sinon.stub();
-            dbStub = sinon.stub();
             mockEnv = {};
         });
 
@@ -27,16 +25,11 @@ describe(__filename, function() {
                         connect: connectStub
                     }
                 },
-                'env-var': env.mock(mockEnv),
-                'fh-mbaas-api': {
-                    db: dbStub
-                }
+                'env-var': env.mock(mockEnv)
             });
         }
 
         it('Should connect successfully', function() {
-            dbStub.yields(null, 'abc');
-
             var collectionStub = sinon.stub().returns({
                 find: sinon.stub().returns(Promise.resolve('foo'))
             });
@@ -49,13 +42,10 @@ describe(__filename, function() {
             return coll.find().then(function(result) {
                 expect(result).to.eql('foo');
                 expect(connectStub.callCount).to.eql(1);
-                expect(connectStub.getCall(0).args[0]).to.eql('abc');
             });
         });
 
         it('Should continue trying to connect', function() {
-            dbStub.yields(null, 'abc');
-
             mockEnv = {
                 RHMAP_MONGO_CONNECT_RETRY_INTERVAL: 200
             };
@@ -84,17 +74,13 @@ describe(__filename, function() {
         var mod;
 
         beforeEach(function() {
-            mod = proxyquire('./index', {
-                'fh-mbaas-api': {
-                    db: sinon.stub().yields() // Use local DB
-                }
-            });
+            mod = require('./index'); // No mocking -- use real db
 
             return mod.collection(collName).remove(); // Clean the db
         });
 
         it('Should return an object with all the mongodb collection functions', function() {
-            var coll = mod.collection(collName);
+            var coll = mod.collection('FOO_COLLECTION');
 
             return coll.insert({foo: true})
                 .then(function() {

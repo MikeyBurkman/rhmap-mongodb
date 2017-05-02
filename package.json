@@ -1,6 +1,6 @@
 {
   "name": "rhmap-mongodb",
-  "version": "2.1.0",
+  "version": "2.0.0",
   "description": "Mongodb Promise wrapper for RHMAP",
   "main": "index.js",
   "scripts": {
@@ -28,7 +28,6 @@
   "dependencies": {
     "bluebird": "~3.4.6",
     "env-var": "~2.2.0",
-    "fh-mbaas-api": "~5.14.0",
     "mongodb": "~2.1.21"
   },
   "devDependencies": {
