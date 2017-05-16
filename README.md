@@ -27,9 +27,9 @@ the mongodb module provides. IE: `find()`, `insert()`, `remove()`, etc.
 **These functions all return strict Bluebird promises**, even if the original mongodb functions did not. (See below caveats for more details.)
 ```js
 mongo.collection('FOO')
-    .find({status: 'failed'}) // Call the find() mongodb collection function
+    .find({status: 'successs'}) // Call the find() mongodb collection function
     .then((cursor) => cursor.toArray())
-    .map((failedRecord) => sendEmailNotification(failedRecord)); // Returns a bluebird promise, so we can use its utility functions.
+    .map((successRecord) => log.debug('Processed record: ', successRecord)); // Returns a bluebird promise, so we can use its utility functions.
 ```
 
 `db()` - Returns a **promise** that resolves to the connected Mongodb driver.
