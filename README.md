@@ -35,6 +35,8 @@ mongo.collection('FOO')
 `db()` - Returns a **promise** that resolves to the connected Mongodb driver.
 This returns the equivalent of calling `MongoClient.connect(url)`.
 
+`mongodb` - This is a property that exposes the underlying `mongodb` module this module uses internally.
+
 ## Configuration
 Configuration is done via environment variables:
 
