@@ -38,7 +38,7 @@ describe(__filename, function() {
             }));
 
             var coll = getModule().collection('foo');
-            
+
             return coll.find().then(function(result) {
                 expect(result).to.eql('foo');
                 expect(connectStub.callCount).to.eql(1);
@@ -67,6 +67,16 @@ describe(__filename, function() {
                 expect(connectStub.callCount).to.eql(3);
             });
         });
+    });
+
+    describe('#mongodb', function () {
+      it('should expose the mongodb module', function () {
+        var mongo = require('./index').mongodb;
+
+        expect(mongo).to.exist;
+        expect(mongo.MongoClient).to.be.a('function');
+        expect(mongo.ObjectID).to.be.a('function');
+      });
     });
 
     describe('#collection', function() {

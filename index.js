@@ -10,6 +10,9 @@ var retryInterval = env('RHMAP_MONGO_CONNECT_RETRY_INTERVAL', 10000).asPositiveI
 
 var collectionFns = Object.keys(Collection.prototype);
 
+// We export this so developers can access properties such as mongodb.ObjectID
+exports.mongodb = require('mongodb');
+
 exports.db = new Promise(function(resolve) {
     attemptConnection(resolve);
 });
@@ -42,7 +45,7 @@ function attemptConnection(onConnect) {
         .catch(function(err) {
             console.log('Error connecting to mongo, trying again later', err.stack || err);
             Promise.delay(retryInterval).then(function() {
-                attemptConnection(onConnect);   
+                attemptConnection(onConnect);
             });
         });
 }
